@@ -21,7 +21,7 @@ function keyPressHandler(evt) {
         changePages(currentScreen - 1);
       }
     } else if (evt.keyCode === KEY_RIGHT) {
-      if (currentScreen === pages.length) {
+      if (currentScreen === pages.length - 1) {
         changePages(1);
       } else {
         changePages(currentScreen + 1);
@@ -31,3 +31,10 @@ function keyPressHandler(evt) {
 }
 window.onload = changePages(STARTPAGE);
 document.addEventListener(`keyup`, keyPressHandler);
+
+
+const getElementFromTemplate = (template) => {
+  let container = document.createElement(`template`);
+  container.innerHTML = template;
+  return container.content;
+};
