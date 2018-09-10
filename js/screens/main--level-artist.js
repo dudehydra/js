@@ -1,4 +1,8 @@
-let screen = `<section class="main main--level main--level-artist">
+import getElementFromTemplate from './../elementFromTemplate';
+import changePages from './../changePages';
+import {screen as screenGanre} from './main--level-genre';
+
+export let screenArtist = getElementFromTemplate(`<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
@@ -43,4 +47,12 @@ let screen = `<section class="main main--level main--level-artist">
         </div>
       </form>
     </div>
-  </section>`
+  </section>`);
+
+
+let allAnswers = screenArtist.querySelectorAll(`.main-answer-wrapper`);
+allAnswers.forEach(function(elem) {
+  elem.addEventListener(`click`, function () {
+    changePages(screenGanre);
+  });
+});

@@ -1,5 +1,7 @@
-import getElementFromTemplate from '../elementFromTemplate';
-export default screenDOM();
+import getElementFromTemplate from './../elementFromTemplate';
+import changePages from './../changePages';
+import {screenArtist as artistPage} from './main--level-artist';
+
 let screen = `<section class="main main--welcome">
   <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
 <button class="main-play">Начать игру</button>
@@ -8,6 +10,13 @@ let screen = `<section class="main main--welcome">
   Правила просты&nbsp;— за&nbsp;2 минуты дать
 максимальное количество правильных ответов.<br>
 Удачи!
-</p></section>`
+</p></section>`;
 
-let screenDOM = getElementFromTemplate(screen);
+export default function getScreen() {
+  const screenDom = getElementFromTemplate(screen);
+  let button = screenDom.querySelector(`.main-play`);
+  button.addEventListener(`click`, function () {
+    changePages(artistPage);
+  });
+  return screenDom;
+}

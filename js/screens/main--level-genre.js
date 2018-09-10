@@ -1,4 +1,9 @@
-let screen = `<section class="main main--level main--level-genre">
+import getElementFromTemplate from './../elementFromTemplate';
+import changePages from './../changePages';
+import {screen as screenResult} from './main--result';
+import {screenArtist as artistPage} from './main--level-artist';
+
+export let screen = getElementFromTemplate(`<section class="main main--level main--level-genre">
     <h2 class="title">Выберите инди-рок треки</h2>
     <form class="genre">
       <div class="genre-answer">
@@ -27,4 +32,22 @@ let screen = `<section class="main main--level main--level-genre">
 
       <button class="genre-answer-send" type="submit">Ответить</button>
     </form>
-  </section>`
+  </section>`);
+console.log(screenResult);
+
+let answerBtn = screen.querySelector(`.genre-answer-send`);
+let checkbox = screen.querySelectorAll(`input[name=answer]`);
+answerBtn.setAttribute(`disabled`, `true`);
+checkbox.forEach(function (elem) {
+  elem.addEventListener(`click`, function () {
+    if (elem.checked) {
+      answerBtn.removeAttribute(`disabled`);
+    }
+    else {
+      answerBtn.setAttribute(`disabled`, `true`);
+    }
+  });
+});
+answerBtn.addEventListener(`click`, function () {
+  changePages(screenResult);
+});
