@@ -1,8 +1,27 @@
 import getElementFromTemplate from './../elementFromTemplate';
 import changePages from './../changePages';
-import {screen as screenGanre} from './main--level-genre';
+import getScreenGenre from './main--level-genre';
+import tracks from '../moduls/tracks';
 
-export let screenArtist = getElementFromTemplate(`<section class="main main--level main--level-artist">
+
+const anwersShow = 3;
+function createAnswers(options) {
+  let answers = [];
+  const option = Array.from(options);
+  option.map(([index, name]) => {
+    answers.push(`<div class="main-answer-wrapper">
+          <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="val-${index}" />
+          <label class="main-answer" for="answer-${index}">
+            <img class="main-answer-preview" src="${name.imgSrc}">
+            ${name.title}
+          </label>
+        </div>`);
+  });
+  return answers.slice(0, anwersShow).join(` `);
+}
+
+
+let screenArtist = `<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
@@ -22,37 +41,23 @@ export let screenArtist = getElementFromTemplate(`<section class="main main--lev
       <h2 class="title main-title">Кто исполняет эту песню?</h2>
       <div class="player-wrapper"></div>
       <form class="main-list">
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-1" name="answer" value="val-1" />
-          <label class="main-answer" for="answer-1">
-            <img class="main-answer-preview" src="">
-            Пелагея
-          </label>
-        </div>
-
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-2" name="answer" value="val-1" />
-          <label class="main-answer" for="answer-2">
-            <img class="main-answer-preview" src="">
-            Краснознаменная дивизия имени моей бабушки
-          </label>
-        </div>
-
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-2" name="answer" value="val-1" />
-          <label class="main-answer" for="answer-2">
-            <img class="main-answer-preview" src="">
-            Lorde
-          </label>
-        </div>
+        ${createAnswers(tracks)}
       </form>
     </div>
-  </section>`);
+  </section>`;
 
 
-let allAnswers = screenArtist.querySelectorAll(`.main-answer-wrapper`);
-allAnswers.forEach(function(elem) {
-  elem.addEventListener(`click`, function () {
-    changePages(screenGanre);
+export default function getScreenArtist() {
+  let screenDom = getElementFromTemplate(screenArtist);
+  let allAnswers = screenDom.querySelectorAll(`.main-answer-wrapper`);
+  const player = screenDom.querySelector(`.player-wrapper`);
+  const file = `js/Orison.mp3`;
+  window.initializePlayer(player, file, false, true);
+
+  allAnswers.forEach(function (elem) {
+    elem.addEventListener(`click`, function () {
+      changePages(getScreenGenre());
+    });
   });
-});
+  return screenDom;
+}
